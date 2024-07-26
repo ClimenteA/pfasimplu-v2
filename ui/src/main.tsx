@@ -4,12 +4,14 @@ import App from './App.tsx'
 import '@picocss/pico/css/pico.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Registre } from './pages/Registre.tsx'
+import { Error } from './pages/Error.tsx'
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App/>,
+    errorElement: <Error/>,
     children: [
       {
         path: "registre",
