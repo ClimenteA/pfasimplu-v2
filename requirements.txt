@@ -1,0 +1,5 @@
+fastapi==0.111.1
+uvicorn==0.30.3
+pydantic-settings==2.3.4
+loguru==0.7.2
+sqlmodel==0.0.21
