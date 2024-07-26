@@ -1,33 +1,75 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export function NavBar() {
   return (
     <nav>
       <ul>
         <li>
-          <Link to={`/`} role="button">
+          <NavLink to={`/`} role="button">
             <strong>PFASimplu</strong>
-          </Link>
+          </NavLink>
         </li>
       </ul>
       <ul>
         <li>
-          <Link to={`/registre`}>Registre</Link>
+          <NavLink
+            to={`/registre`}
+            className={({ isActive, isPending }) =>
+              isPending ? "secondary" : isActive ? "underline" : ""
+            }
+          >
+            Registre
+          </NavLink>
         </li>
         <li>
-          <Link to={`/incasari`}>Incasari</Link>
+          <NavLink
+            to={`/incasari`}
+            className={({ isActive, isPending }) =>
+              isPending ? "secondary" : isActive ? "underline" : ""
+            }
+          >
+            Incasari
+          </NavLink>
         </li>
         <li>
-          <Link to={`/cheltuieli`}>Cheltuieli</Link>
+          <NavLink
+            to={`/cheltuieli`}
+            className={({ isActive, isPending }) =>
+              isPending ? "secondary" : isActive ? "underline" : ""
+            }
+          >
+            Cheltuieli
+          </NavLink>
         </li>
         <li>
-          <Link to={`/documente`}>Documente</Link>
+          <NavLink
+            to={`/documente`}
+            className={({ isActive, isPending }) =>
+              isPending ? "secondary" : isActive ? "underline" : ""
+            }
+          >
+            Documente
+          </NavLink>
         </li>
         <li>
-          <Link to={`/inventar`}>Inventar</Link>
+          <NavLink
+            to={`/inventar`}
+            className={({ isActive, isPending }) =>
+              isPending ? "secondary" : isActive ? "underline" : ""
+            }
+          >
+            Inventar
+          </NavLink>
         </li>
         <li>
-          <Link to={`/setari`}>Setari</Link>
+          <NavLink
+            to={`/setari`}
+            className={({ isActive, isPending }) =>
+              isPending ? "secondary" : isActive ? "underline" : ""
+            }
+          >
+            Setari
+          </NavLink>
         </li>
       </ul>
     </nav>
