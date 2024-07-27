@@ -1,4 +1,3 @@
-from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from api import routers
@@ -11,12 +10,6 @@ app = FastAPI(
     title="PFASimplu v2",
     description="Aplicatie de contabilitate pentru PFA (partida simpla)",
 )
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    create_db_and_tables()
-    yield
 
 
 [app.include_router(router, prefix="/v1") for router in routers]
@@ -45,6 +38,8 @@ async def security_headers(request: Request, call_next):
 
 if __name__ == "__main__":
     import uvicorn
+
+    create_db_and_tables()
 
     uvicorn.run(
         app="main:app",

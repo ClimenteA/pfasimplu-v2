@@ -35,15 +35,31 @@ interface IFormInput {
 // https://mfinante.gov.ro/apps/agenticod.html?pagina=domenii
 export function Setari() {
   const { register, handleSubmit } = useForm<IFormInput>();
+  const [saveStatus, setSaveStatus] = useState("");
+  const [loading, setLoading] = useState(false);
   const [caenSecundarSelectat, setCaenSecundarSelectat] = useState("");
   const [caenSecundar, setCaenSecundar] = useState<string[]>([]);
-  
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    const payload = {...data, caenSecondar: caenSecundar}
+    const payload = { ...data, caenSecondar: caenSecundar.join(", ") };
+    console.log("formdata:", payload);
 
-    // req.post()
+    setLoading(true)
 
-    console.log("formdata:", payload)
+    req
+      .post("/v1/setari/salveaza-date-pfa", payload)
+      .then(function (response) {
+        setLoading(false)
+        if (response.status == 200) {
+          setSaveStatus(response.data.detail || "")
+        }
+      })
+      .catch(function (error) {
+        setLoading(false)
+        setSaveStatus("Nu am putut salva datele... Asigura-te ca ai completat formularul corect.")
+        setTimeout(() => setSaveStatus(""), 5000);
+        console.log(error);
+      });
   };
 
   function handleAdaugaCAENSecondar() {
@@ -132,7 +148,7 @@ export function Setari() {
             />
           </div>
 
-          <p style={{ marginTop: "2rem" }} className="secondary text-bold">
+          <p style={{ marginTop: "2rem" }} className="text-bold">
             Coduri CAEN secundare:
           </p>
 
@@ -176,9 +192,20 @@ export function Setari() {
             })}
           </div>
 
-          <button style={{ marginTop: "2rem" }} type="submit">
-            <Save /> Salveaza datele PFA
-          </button>
+          <div style={{ marginTop: "2rem" }}>
+            <button type="submit" disabled={loading}>
+              <Save /> {" "}
+              Salveaza datele PFA
+            </button>
+            <p className="pico-color-zinc-450 text-center">
+              {
+                loading && saveStatus.length > 0 ? "Se salveaza...": null
+              }
+              {
+                saveStatus.length > 0 ? saveStatus: null
+              }
+            </p>
+          </div>
         </article>
       </form>
     </main>
