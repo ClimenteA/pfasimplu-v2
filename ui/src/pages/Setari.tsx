@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PlusLg, Save } from "react-bootstrap-icons";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { req } from "../utils";
@@ -30,33 +30,65 @@ interface IFormInput {
   email: string;
   iban: string;
   caenPrincipal: string;
+  caenSecondar?: string;
+  actualizat_la?: string;
 }
 
 // https://mfinante.gov.ro/apps/agenticod.html?pagina=domenii
 export function Setari() {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const { register, handleSubmit, setValue } = useForm<IFormInput>();
   const [saveStatus, setSaveStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [caenSecundarSelectat, setCaenSecundarSelectat] = useState("");
   const [caenSecundar, setCaenSecundar] = useState<string[]>([]);
 
+  useEffect(() => {
+    req
+      .get("/v1/setari/date-pfa")
+      .then(function (response) {
+        
+        const pfaData: IFormInput = response.data
+
+        if (pfaData.caenSecondar !== undefined) {
+          setCaenSecundar(pfaData.caenSecondar.split(", "))
+        }
+
+        if (pfaData.nume !== undefined) {
+          setValue("nume", pfaData.nume)
+          setValue("adresa", pfaData.adresa)
+          setValue("nrRegCom", pfaData.nrRegCom)
+          setValue("cifVatCui", pfaData.cifVatCui)
+          setValue("telefon", pfaData.telefon)
+          setValue("email", pfaData.email)
+          setValue("iban", pfaData.iban)
+          setValue("caenPrincipal", pfaData.iban)
+        }
+      
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     const payload = { ...data, caenSecondar: caenSecundar.join(", ") };
     console.log("formdata:", payload);
 
-    setLoading(true)
+    setLoading(true);
 
     req
-      .post("/v1/setari/salveaza-date-pfa", payload)
+      .post("/v1/setari/date-pfa", payload)
       .then(function (response) {
-        setLoading(false)
+        setLoading(false);
         if (response.status == 200) {
-          setSaveStatus(response.data.detail || "")
+          setSaveStatus(response.data.detail || "");
         }
       })
       .catch(function (error) {
-        setLoading(false)
-        setSaveStatus("Nu am putut salva datele... Asigura-te ca ai completat formularul corect.")
+        setLoading(false);
+        setSaveStatus(
+          "Nu am putut salva datele... Asigura-te ca ai completat formularul corect."
+        );
         setTimeout(() => setSaveStatus(""), 5000);
         console.log(error);
       });
@@ -194,16 +226,11 @@ export function Setari() {
 
           <div style={{ marginTop: "2rem" }}>
             <button type="submit" disabled={loading}>
-              <Save /> {" "}
-              Salveaza datele PFA
+              <Save /> Salveaza datele PFA
             </button>
             <p className="pico-color-zinc-450 text-center">
-              {
-                loading && saveStatus.length > 0 ? "Se salveaza...": null
-              }
-              {
-                saveStatus.length > 0 ? saveStatus: null
-              }
+              {loading && saveStatus.length > 0 ? "Se salveaza..." : null}
+              {saveStatus.length > 0 ? saveStatus : null}
             </p>
           </div>
         </article>
