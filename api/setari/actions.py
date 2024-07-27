@@ -20,7 +20,7 @@ def salveaza_date_pfa(payload: DatePFA, db: Session = Depends(get_session)):
     try:
         data = DatePFA.model_validate(payload)
     except Exception as err:
-        log.exception(err)
+        log.info(err)
         raise HTTPException(
             status_code=400, detail="Completeaza toate campurile cu datele corecte"
         )

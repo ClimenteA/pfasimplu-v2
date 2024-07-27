@@ -3,7 +3,7 @@ import { PlusLg, Save } from "react-bootstrap-icons";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { req } from "../utils";
 import { ArrowRight } from "react-bootstrap-icons";
-
+import { useStoreDatePFA } from "../store/datePfaEmpty";
 
 interface IFormInput {
   id?: number;
@@ -21,8 +21,8 @@ interface IFormInput {
 
 // https://mfinante.gov.ro/apps/agenticod.html?pagina=domenii
 export function PFADataForm() {
+  const { datePFA, noDatePFA, hasDatePFA } = useStoreDatePFA();
   const { register, handleSubmit, setValue } = useForm<IFormInput>();
-  const [hasData, setHasData] = useState(true);
   const [saveStatus, setSaveStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [caenSecundarSelectat, setCaenSecundarSelectat] = useState("");
@@ -34,7 +34,7 @@ export function PFADataForm() {
       .then(function (response) {
         const pfaData: IFormInput = response.data;
         console.log(pfaData);
-
+    
         if (pfaData.caenSecondar != undefined) {
           if (pfaData.caenSecondar.length != 0) {
             console.log(pfaData.caenSecondar.split(", "));
@@ -43,7 +43,7 @@ export function PFADataForm() {
         }
 
         if (pfaData.id !== null) {
-          setHasData(true);
+          hasDatePFA();
           setValue("nume", pfaData.nume);
           setValue("adresa", pfaData.adresa);
           setValue("nrRegCom", pfaData.nrRegCom);
@@ -71,7 +71,7 @@ export function PFADataForm() {
         setLoading(false);
         if (response.status == 200) {
           setSaveStatus(response.data.detail || "");
-          setHasData(true);
+          hasDatePFA();
         }
       })
       .catch(function (error) {
@@ -103,7 +103,7 @@ export function PFADataForm() {
         padding: "2rem 2rem 1rem 2rem",
       }}
     >
-      <hgroup style={{ textAlign: "left", marginBottom: "3rem" }}>
+      <hgroup style={{ textAlign: "left", marginBottom: "2rem" }}>
         <h2>Date PFA</h2>
         <p style={{ marginTop: "1rem" }}>
           Aici poti modifica datele PFA-ului tau (nume, cif, vat etc.). Datele
@@ -111,9 +111,9 @@ export function PFADataForm() {
         </p>
       </hgroup>
       <>
-        {hasData ? (
-          <button onClick={() => setHasData(false)} type="button">
-            Modifica date PFA <ArrowRight/>
+        {datePFA ? (
+          <button onClick={() => noDatePFA()} type="button">
+            Modifica date PFA <ArrowRight />
           </button>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)}>
