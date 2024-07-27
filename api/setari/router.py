@@ -9,9 +9,9 @@ router = APIRouter(tags=["Setari"], prefix="/setari")
 
 
 
-@router.get("/date-pfa", response_model=DatePFA)
+@router.get("/date-pfa")
 async def get_pfa(db: Session = Depends(get_session)):
-    return get_date_pfa(db)
+    return get_date_pfa(db) 
     
 @router.post("/date-pfa", response_model=DatePFA)
 async def save_pfa_data(payload: DatePFA, db: Session = Depends(get_session)):

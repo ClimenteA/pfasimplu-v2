@@ -8,7 +8,7 @@ from api.logger import log
 
 def get_date_pfa(db: Session = Depends(get_session)):
     try:
-        return db.exec(select(DatePFA)).first()
+        return db.exec(select(DatePFA)).first() or {"id": None}
     except Exception as err:
         log.exception(err)
         raise HTTPException(
