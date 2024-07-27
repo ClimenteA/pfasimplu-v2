@@ -2,6 +2,10 @@ body {
   font-family: "Poppins";
 }
 
+.text-bold {
+  font-weight: bold; 
+}
+
 .underline {
   text-decoration: underline !important; 
 }

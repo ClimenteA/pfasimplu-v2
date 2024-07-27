@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 export function NavBar() {
   return (
-    <nav>
+    <nav style={{borderBottom: "1px solid #696868"}}>
       <ul>
         <li>
           <NavLink to={`/`} role="button">
