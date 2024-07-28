@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import { PlusLg, Save } from "react-bootstrap-icons";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { req } from "../utils";
@@ -27,6 +28,7 @@ export function PFADataForm() {
   const [loading, setLoading] = useState(false);
   const [caenSecundarSelectat, setCaenSecundarSelectat] = useState("");
   const [caenSecundar, setCaenSecundar] = useState<string[]>([]);
+  const [actualizatLa, setActualizatLa] = useState("");
 
   useEffect(() => {
     req
@@ -34,7 +36,7 @@ export function PFADataForm() {
       .then(function (response) {
         const pfaData: IFormInput = response.data;
         console.log(pfaData);
-    
+
         if (pfaData.caenSecondar != undefined) {
           if (pfaData.caenSecondar.length != 0) {
             console.log(pfaData.caenSecondar.split(", "));
@@ -52,6 +54,12 @@ export function PFADataForm() {
           setValue("email", pfaData.email);
           setValue("iban", pfaData.iban);
           setValue("caenPrincipal", pfaData.caenPrincipal);
+          if (pfaData.actualizat_la) {
+            const formattedDate = dayjs(pfaData.actualizat_la).format(
+              "DD-MM-YYYY"
+            );
+            setActualizatLa(formattedDate);
+          }
         }
       })
       .catch(function (error) {
@@ -112,9 +120,18 @@ export function PFADataForm() {
       </hgroup>
       <>
         {datePFA ? (
-          <button onClick={() => noDatePFA()} type="button">
-            Modifica date PFA <ArrowRight />
-          </button>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <button onClick={() => noDatePFA()} type="button">
+              Modifica date PFA <ArrowRight />
+            </button>
+            <p className="pico-color-zinc-450" style={{fontSize: "12px"}}>Ultima actualizare: {actualizatLa}</p>
+          </div>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)}>
             <p className="text-bold">Datele PFA-ului tau:</p>
