@@ -1,23 +1,5 @@
 import { PFADataForm } from "../components/PFADataForm";
 
-// type VariabileAnuale = {
-//   an: string;
-//   valoare: string;
-// };
-
-// type Setari = {
-//   numePfa: string;
-//   adresaPfa: string;
-//   emailPfa: string;
-//   telefonPfa: string;
-//   cifVatPfa: string;
-//   codCaenPrincipal: string;
-//   coduriCaenSecundare: string[];
-//   praguriMijloaceFixe: VariabileAnuale[];
-//   salariiMinimBrute: VariabileAnuale[];
-//   plafoaneTVA: VariabileAnuale[];
-// };
-
 // https://mfinante.gov.ro/apps/agenticod.html?pagina=domenii
 export function Setari() {
   return (

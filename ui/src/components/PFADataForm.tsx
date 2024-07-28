@@ -4,7 +4,7 @@ import { PlusLg, Save } from "react-bootstrap-icons";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { req } from "../utils";
 import { ArrowRight } from "react-bootstrap-icons";
-import { useStoreDatePFA } from "../store/datePfaEmpty";
+import { useStoreSetari } from "../store/setari";
 
 interface IFormInput {
   id?: number;
@@ -22,7 +22,7 @@ interface IFormInput {
 
 // https://mfinante.gov.ro/apps/agenticod.html?pagina=domenii
 export function PFADataForm() {
-  const { datePFA, noDatePFA, hasDatePFA } = useStoreDatePFA();
+  const { datePFA, noDatePFA, hasDatePFA } = useStoreSetari();
   const { register, handleSubmit, setValue } = useForm<IFormInput>();
   const [saveStatus, setSaveStatus] = useState("");
   const [loading, setLoading] = useState(false);
@@ -199,7 +199,6 @@ export function PFADataForm() {
             <div className="grid">
               <input
                 type="text"
-                name="text"
                 value={caenSecundarSelectat}
                 onChange={(e) => setCaenSecundarSelectat(e.target.value)}
                 placeholder="Cod CAEN Secundar"
