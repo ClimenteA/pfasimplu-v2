@@ -9,9 +9,15 @@ import "@fontsource/poppins/300.css";
 import "@fontsource/poppins/300-italic.css";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Registre } from "./pages/Registre.tsx";
 import { Error } from "./pages/Error.tsx";
+import { Registre } from "./pages/Registre.tsx";
+import { Incasari } from "./pages/Incasari.tsx";
+import { Cheltuieli } from "./pages/Cheltuieli.tsx";
+import { Documente } from "./pages/Documente.tsx";
+import { Inventar } from "./pages/Inventar.tsx";
 import { Setari } from "./pages/Setari.tsx";
+
+
 
 const router = createBrowserRouter([
   {
@@ -20,8 +26,28 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
+        index: true,
+        element: <Registre />,
+      },
+      {
         path: "registre",
         element: <Registre />,
+      },
+      {
+        path: "incasari",
+        element: <Incasari />,
+      },
+      {
+        path: "cheltuieli",
+        element: <Cheltuieli />,
+      },
+      {
+        path: "documente",
+        element: <Documente />,
+      },
+      {
+        path: "inventar",
+        element: <Inventar />,
       },
       {
         path: "setari",

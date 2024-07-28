@@ -14,4 +14,3 @@ class DatePFA(SQLModel, table=True):
     caenPrincipal: str = Field(min_length=2)
     caenSecondar: str = Field(default="")
     actualizat_la: str = Field(default_factory=lambda: datetime.now().isoformat())
-
