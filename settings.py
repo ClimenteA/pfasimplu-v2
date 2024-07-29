@@ -1,3 +1,4 @@
+import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -13,8 +14,9 @@ class Config(BaseSettings):
     LOG_LEVEL: str = "DEBUG"
     LOG_RETENTION: str = "1 week"
     LOG_PATH: str = "logs.log"
+    SAVE_PATH: str = "./data/fisiere"
 
-    DATABASE_URI: str = "sqlite:///stocare.sqlite"
+    DATABASE_URI: str = "sqlite:///./data/database.sqlite"
 
 
 cfg = Config()

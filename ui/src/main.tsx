@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "@picocss/pico/css/pico.css";
 import "./pico.colors.min.css";
-// https://www.npmjs.com/package/@fontsource/poppins
 import "@fontsource/poppins";
 import "@fontsource/poppins/300.css";
 import "@fontsource/poppins/300-italic.css";
@@ -16,8 +15,6 @@ import { Cheltuieli } from "./pages/Cheltuieli.tsx";
 import { Documente } from "./pages/Documente.tsx";
 import { Inventar } from "./pages/Inventar.tsx";
 import { Setari } from "./pages/Setari.tsx";
-
-
 
 const router = createBrowserRouter([
   {

@@ -10,6 +10,7 @@ export function Incasari() {
   const [isDragActive, setIsDragActive] = useState(false);
   const [uploadErr, setUploadErr] = useState("");
   const [fileName, setFileName] = useState("");
+  const [urlFisierIncarcat, setUrlFisierIncarcat] = useState("");
 
   function handleFiles(files: any[]) {
     if (files.length != 1) {
@@ -27,16 +28,21 @@ export function Incasari() {
     formData.append("file", file);
 
     req
-      .post("YOUR_ENDPOINT_URL", formData, {
+      .post("/v1/incasari/incarca", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
-        console.log("File uploaded successfully:", response.data);
+        if (response.data.nume_fisier.endsWith(".pdf")) {
+          const url = `http://localhost:3000/v1/incasari/fisier/${response.data.nume_fisier}`;
+          setUrlFisierIncarcat(url);
+        } else {
+          console.log(response.data);
+        }
       })
-      .catch((error) => {
-        console.error("Error uploading file:", error);
+      .catch((err) => {
+        console.error(err);
       });
 
     console.log(file);
@@ -49,8 +55,20 @@ export function Incasari() {
         description="Aici poti aduga documentele justificative (facturi, chitante) prin care ai incasat bani oferind produse sau servicii cu PFA-ul tau."
       />
 
+      {
+        fileDropped ? <p>Formular</p>: null 
+      }
+
       {fileDropped ? (
-        <p>Super fisierul '{fileName}' a fost incarcat</p>
+        <div>
+          <p>Super fisierul '{fileName}' a fost incarcat</p>
+          <div>
+            <iframe style={{
+              height: "800px",
+              width: "100%"
+            }} src={urlFisierIncarcat}></iframe>
+          </div>
+        </div>
       ) : (
         <article
           style={{
@@ -113,50 +131,3 @@ export function Incasari() {
     </main>
   );
 }
-
-// import { PageHeader } from "../components/PageHeader";
-// import Dropzone from "react-dropzone";
-// import { Upload } from "react-bootstrap-icons";
-
-// export function Incasari() {
-//   return (
-//     <main className="container">
-//       <PageHeader
-//         title="Incasari"
-//         description="Aici poti aduga documentele justificative (facturi, chitante) prin care ai incasat bani oferind produse sau servicii cu PFA-ul tau."
-//       />
-
-//       <article style={{ marginTop: "4rem", cursor: "pointer" }}>
-//         <Dropzone
-//           maxFiles={1}
-//           accept={{
-//             "image/*": [],
-//             "application/pdf": [],
-//           }}
-//           onDrop={(acceptedFiles) => console.log(acceptedFiles)}
-//         >
-//           {({ getRootProps, getInputProps }) => (
-//             <section>
-//               <div {...getRootProps()}>
-//                 <input {...getInputProps()} />
-//                 <p
-//                   style={{
-//                     marginTop: "1rem",
-//                     display: "flex",
-//                     flexDirection: "column",
-//                     alignItems: "center",
-//                   }}
-//                   className="text-center"
-//                 >
-//                   Drag 'n' drop fisiere aici, sau click pentru a selecta fisiere
-//                   din PC sau Laptop
-//                   <Upload style={{ marginTop: "2rem" }} size={42} />
-//                 </p>
-//               </div>
-//             </section>
-//           )}
-//         </Dropzone>
-//       </article>
-//     </main>
-//   );
-// }

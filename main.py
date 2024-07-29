@@ -29,7 +29,6 @@ async def security_headers(request: Request, call_next):
     response.headers["strict-transport-security"] = (
         "max-age=63072000; includeSubdomains; preload"
     )
-    response.headers["x-frame-options"] = "SAMEORIGIN"
     response.headers["x-content-type-options"] = "nosniff"
     response.headers["x-xss-protection"] = "0"
     response.headers["referrer-policy"] = "no-referrer, strict-origin-when-cross-origin"
