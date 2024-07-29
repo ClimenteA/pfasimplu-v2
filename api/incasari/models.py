@@ -15,4 +15,4 @@ class Incasari(SQLModel, table=True):
     @computed_field
     @property
     def url_fisier(self) -> str:
-        return f"{'https' if cfg.SECURE_URL else 'http'}://{cfg.HOST}:{cfg.PORT}/v1/incasari/fisier/{self.nume_fisier}"
+        return f"{'https' if cfg.SECURE_URL else 'http'}://{cfg.HOST}:{cfg.PORT}/v1/fisiere/{self.nume_fisier}"
