@@ -23,7 +23,8 @@ def incarca_fisier_incasari(file: UploadFile, db: Session = Depends(get_session)
         with open(save_file_path, 'wb+') as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        data = Incasari.model_validate(Incasari(nume_fisier=filename))
+        payload = Incasari(nume_fisier=filename)
+        data = Incasari.model_validate(payload)
         db.add(data)
         db.commit()
         db.refresh(data)

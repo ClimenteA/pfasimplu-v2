@@ -7,6 +7,7 @@ class Config(BaseSettings):
     
     DEBUG: bool = True
 
+    SECURE_URL: bool = False
     HOST: str = "0.0.0.0"
     PORT: int = 3000
     ALLOWED_ORIGINS: str = "*"

@@ -1,9 +1,8 @@
 import { PageHeader } from "../components/PageHeader";
 import Dropzone from "react-dropzone";
 import { Upload } from "react-bootstrap-icons";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { req } from "../utils";
-
 
 export function Incasari() {
   const [fileDropped, setFileDropped] = useState(false);
@@ -34,12 +33,8 @@ export function Incasari() {
         },
       })
       .then((response) => {
-        if (response.data.nume_fisier.endsWith(".pdf")) {
-          const url = `http://localhost:3000/v1/incasari/fisier/${response.data.nume_fisier}`;
-          setUrlFisierIncarcat(url);
-        } else {
-          console.log(response.data);
-        }
+        console.log(response.data);
+        setUrlFisierIncarcat(response.data.url_fisier);
       })
       .catch((err) => {
         console.error(err);
@@ -55,18 +50,20 @@ export function Incasari() {
         description="Aici poti aduga documentele justificative (facturi, chitante) prin care ai incasat bani oferind produse sau servicii cu PFA-ul tau."
       />
 
-      {
-        fileDropped ? <p>Formular</p>: null 
-      }
+      {fileDropped ? <p>Formular</p> : null}
 
       {fileDropped ? (
         <div>
-          <p>Super fisierul '{fileName}' a fost incarcat</p>
+          <p>
+            Fisierul: <span className="pico-color-amber-250">{fileName}</span> a
+            fost incarcat!
+          </p>
           <div>
-            <iframe style={{
-              height: "800px",
-              width: "100%"
-            }} src={urlFisierIncarcat}></iframe>
+            <iframe
+              src={urlFisierIncarcat}
+              width="100%"
+              height="800px"
+            ></iframe>
           </div>
         </div>
       ) : (

@@ -31,7 +31,6 @@ async def security_headers(request: Request, call_next):
     )
     response.headers["x-content-type-options"] = "nosniff"
     response.headers["x-xss-protection"] = "0"
-    response.headers["referrer-policy"] = "no-referrer, strict-origin-when-cross-origin"
     return response
 
 
