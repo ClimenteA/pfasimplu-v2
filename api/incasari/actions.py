@@ -1,18 +1,27 @@
-from fastapi import Depends
 from fastapi.exceptions import HTTPException
-from sqlmodel import Session
+from sqlmodel import select, Session
+from pydantic import ValidationError
 from .models import Incasari
-from api.database import get_session
+from api.database import engine
 from api.logger import log
 
 
-def salveaza_incasare(payload: Incasari, db: Session = Depends(get_session)):
+def salveaza_incasare(payload: Incasari):
+    
     try:
-        data = Incasari.model_validate(Incasari(payload))
-        db.add(data)
-        db.commit()
-        db.refresh(data)
-        return data    
+        Incasari.model_validate(payload)
+    except ValidationError as err:
+        log.exception(err)
+        raise HTTPException(
+            status_code=400, detail="Completeaza toate campurile corect."
+        )
+
+    try:
+        with Session(engine) as session:
+            statement = select(Incasari).where(Incasari.id == payload.id)
+            results = session.exec(statement)
+            session.commit()
+            return results
     except Exception as err:
         log.exception(err)
-        raise HTTPException(status_code=500, detail="Nu am putut salva incasarea.")
+        raise HTTPException(status_code=500, detail="Nu am putut salva incasarea in baza de date.")

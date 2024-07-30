@@ -36,7 +36,7 @@ async def security_headers(request: Request, call_next):
 
 if __name__ == "__main__":
     import uvicorn
-
+    
     create_db_and_tables()
 
     uvicorn.run(

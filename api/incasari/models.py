@@ -9,6 +9,7 @@ class Incasari(SQLModel, table=True):
     serie: str = Field(default="")
     numar: str = Field(default="")
     suma_incasata: float = Field(default=0.0)
+    sursa_venit: str = Field(default="")
     nume_fisier: str = Field(default="")
     adaugat_la: str = Field(default_factory=lambda: datetime.now().isoformat())
 

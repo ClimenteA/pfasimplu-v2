@@ -1,11 +1,13 @@
 import { create } from "zustand";
 
-interface IIncasare {
+
+export interface IIncasare {
   id?: number
   serie?: string
   numar?: string
   suma_incasata?: number
   nume_fisier?: string
+  sursa_venit?: string
   adaugat_la?: string
   url_fisier?: string
 }

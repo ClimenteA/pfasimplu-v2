@@ -1,14 +1,15 @@
-from fastapi import Depends
 from fastapi.exceptions import HTTPException
-from sqlmodel import Session, text, select
+from sqlmodel import Session, select, delete
 from .models import DatePFA
-from api.database import get_session
+from api.database import engine
 from api.logger import log
 
 
-def get_date_pfa(db: Session = Depends(get_session)):
+def get_date_pfa():
     try:
-        return db.exec(select(DatePFA)).first() or {"id": None}
+        with Session(engine) as session:
+            results = session.exec(select(DatePFA)).first() or {"id": None}
+            return results
     except Exception as err:
         log.exception(err)
         raise HTTPException(
@@ -16,21 +17,22 @@ def get_date_pfa(db: Session = Depends(get_session)):
         )
 
 
-def salveaza_date_pfa(payload: DatePFA, db: Session = Depends(get_session)):
+def salveaza_date_pfa(payload: DatePFA):
     try:
         data = DatePFA.model_validate(payload)
     except Exception as err:
         log.info(err)
         raise HTTPException(
-            status_code=400, detail="Completeaza toate campurile cu datele corecte"
+            status_code=400, detail="Formularul este incomplet"
         )
 
     try:
-        db.exec(text("DELETE FROM datePFA"))
-        db.add(data)
-        db.commit()
-        db.refresh(data)
-        return data
+        with Session(engine) as session:
+            session.exec(delete(DatePFA))
+            session.add(data)
+            session.commit()
+            session.refresh(data)
+            return data
     except Exception as err:
         log.exception(err)
         raise HTTPException(status_code=500, detail="Nu am putut salva datele.")

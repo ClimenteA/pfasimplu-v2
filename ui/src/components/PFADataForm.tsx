@@ -123,13 +123,13 @@ export function PFADataForm() {
           <input
             type="text"
             placeholder="Nume"
-            aria-label="Text"
+            aria-label="Nume"
             {...register("nume")}
           />
           <input
             type="text"
             placeholder="Adresa"
-            aria-label="Text"
+            aria-label="Adresa"
             {...register("adresa")}
           />
         </div>
@@ -137,13 +137,13 @@ export function PFADataForm() {
           <input
             type="text"
             placeholder="Nr.Reg.Com."
-            aria-label="Text"
+            aria-label="Nr.Reg.Com."
             {...register("nrRegCom")}
           />
           <input
             type="text"
             placeholder="CIF/VAT"
-            aria-label="Text"
+            aria-label="CIF/VAT"
             {...register("cifVatCui")}
           />
         </div>
@@ -151,13 +151,13 @@ export function PFADataForm() {
           <input
             type="text"
             placeholder="Telefon"
-            aria-label="Text"
+            aria-label="Telefon"
             {...register("telefon")}
           />
           <input
             type="email"
             placeholder="Email"
-            aria-label="Text"
+            aria-label="Email"
             {...register("email")}
           />
         </div>
@@ -165,13 +165,13 @@ export function PFADataForm() {
           <input
             type="text"
             placeholder="IBAN"
-            aria-label="Text"
+            aria-label="IBAN"
             {...register("iban")}
           />
           <input
             type="text"
             placeholder="Cod CAEN Principal"
-            aria-label="Text"
+            aria-label="Cod CAEN Principal"
             {...register("caenPrincipal")}
           />
         </div>
