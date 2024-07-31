@@ -13,3 +13,7 @@ body {
 .underline {
   text-decoration: underline !important; 
 }
+
+.hidden {
+  display: none;
+}

@@ -56,13 +56,13 @@ export function FileUploader({ uploadUrl }: { uploadUrl: string }) {
 
   if (fileDropped) {
     return (
-      <div>
-        <p>
-          Fisierul: <span className="pico-color-amber-250">{fileName}</span> a
+      <div style={{marginTop: "4rem", marginBottom: "1rem"}}>
+        <p className="text-center">
+          Fisierul <span className="pico-color-amber-250">{fileName}</span> a
           fost incarcat!
         </p>
         <div>
-          <iframe src={urlFisierIncarcat} width="100%" height="800px"></iframe>
+          <iframe style={{borderRadius: "5px"}} src={urlFisierIncarcat} width="100%" height="800px"></iframe>
         </div>
       </div>
     );

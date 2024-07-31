@@ -3,14 +3,18 @@ import { create } from "zustand";
 
 export interface IIncasare {
   id?: number
-  serie?: string
-  numar?: string
+  serie_factura?: string
+  numar_factura?: number
   suma_incasata?: number
-  nume_fisier?: string
+  tip_tranzactie?: string
   sursa_venit?: string
+  nume_fisier?: string
+  data_incasare?: string
+  data_emitere_factura?: string
   adaugat_la?: string
   url_fisier?: string
 }
+
 
 interface IStoreFileUpload {
   data: IIncasare
