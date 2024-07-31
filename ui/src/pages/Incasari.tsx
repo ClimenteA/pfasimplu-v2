@@ -8,7 +8,7 @@ import { req } from "../utils";
 import { Save } from "react-bootstrap-icons";
 
 export function Incasari() {
-  const { data, fileDropped } = useStoreFileUpload();
+  const { data, fileDropped, resetFileDropped } = useStoreFileUpload();
   const { register, handleSubmit, setValue, reset } = useForm<IIncasare>();
   const [loading, setLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
@@ -25,10 +25,12 @@ export function Incasari() {
     setValue("suma_incasata", data.suma_incasata);
     setValue("adaugat_la", data.adaugat_la);
     setValue("tip_tranzactie", data.tip_tranzactie);
-    setValue("data_emitere_factura", data.data_emitere_factura)
+    setValue("data_emitere_factura", data.data_emitere_factura);
     setValue(
       "data_incasare",
-      data.data_incasare !== undefined ? data.data_incasare.substring(0, 10) : ""
+      data.data_incasare !== undefined
+        ? data.data_incasare.substring(0, 10)
+        : ""
     );
   }, [data]);
 
@@ -45,6 +47,10 @@ export function Incasari() {
         if (response.status == 200) {
           setSaveStatus("Datele au fost salvate!");
           reset();
+          setTimeout(() => {
+            setSaveStatus("");
+            resetFileDropped();
+          }, 1000);
         }
       })
       .catch(function (error) {
@@ -72,12 +78,12 @@ export function Incasari() {
           }}
         >
           <hgroup style={{ textAlign: "left", marginBottom: "2rem" }}>
-            <h2>Incasare</h2>
-            <p style={{ marginTop: "1rem" }}>
+            <p style={{ marginTop: "0.5rem", fontSize: "12px" }}>
               Completeaza detaliile acestei incasari in formularul de mai jos.
               Daca ai incasari din alte surse decat din emitere facturi/bonuri
-              selecteaza o alta sursa a venitului.
-              Completeaza 'Data incasare' doar daca ai incasat banii, lasa gol daca nu ai incasat inca banii.
+              selecteaza o alta sursa a venitului. Completeaza 'Data incasare'
+              doar daca ai incasat banii, lasa campul gol daca nu ai incasat
+              inca (vei putea modifica mai tarziu).
             </p>
           </hgroup>
 
@@ -147,10 +153,11 @@ export function Incasari() {
                 Data emitere factura
                 <input
                   type="date"
-                  {...register("data_emitere_factura", { required: sursaVenitPrincipala })}
+                  {...register("data_emitere_factura", {
+                    required: sursaVenitPrincipala,
+                  })}
                 />
               </label>
-
             </div>
 
             <div className="grid" style={{ alignItems: "center" }}>
@@ -171,18 +178,17 @@ export function Incasari() {
                 </select>
               </label>
 
-              <label> 
+              <label>
                 Data incasare
                 <input
                   type="date"
                   {...register("data_incasare", { required: false })}
                 />
               </label>
-
             </div>
 
             <div style={{ marginTop: "2rem" }}>
-              <button type="submit" disabled={loading}>
+              <button type="submit" disabled={loading || saveStatus.length > 0}>
                 <Save /> Salveaza
               </button>
               <p className="pico-color-zinc-450 text-center">

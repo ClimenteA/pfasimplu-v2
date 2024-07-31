@@ -110,11 +110,12 @@ export function PFADataForm() {
       }}
     >
       <hgroup style={{ textAlign: "left", marginBottom: "2rem" }}>
-        <h2>Date PFA</h2>
-        <p style={{ marginTop: "1rem" }}>
+        <p style={{ marginTop: "0.5rem", fontSize: "12px" }}>
           Aici poti modifica datele PFA-ului tau (nume, cif, vat etc.). Datele
-          sunt utile pentru completarea declaratiilor si a facturilor. Ultima
-          actualizare a fost la: {actualizatLa}.
+          sunt utile pentru completarea declaratiilor si a facturilor.
+          {actualizatLa
+            ? `Ultima actualizare a fost la: ${actualizatLa}.`
+            : null}
         </p>
       </hgroup>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -219,8 +220,7 @@ export function PFADataForm() {
 
         <div style={{ marginTop: "2rem" }}>
           <button type="submit" disabled={loading}>
-            <Save /> {" "}
-            Salveaza datele PFA
+            <Save /> Salveaza datele PFA
           </button>
           <p className="pico-color-zinc-450 text-center">
             {loading && saveStatus.length > 0 ? "Se salveaza..." : null}
