@@ -1,15 +1,14 @@
 from fastapi.exceptions import HTTPException
-from sqlmodel import Session, select, delete
-from .models import DatePFA
-from api.database import engine
+from .schemas import PFASchema
+from .tables import PFATable
 from api.logger import log
+from playhouse.shortcuts import model_to_dict
 
 
 def get_date_pfa():
     try:
-        with Session(engine) as session:
-            results = session.exec(select(DatePFA)).first() or {"id": None}
-            return results
+        data = PFATable.select()
+        return [model_to_dict(d) for d in data][0] if len(data) == 1 else {}
     except Exception as err:
         log.exception(err)
         raise HTTPException(
@@ -17,22 +16,15 @@ def get_date_pfa():
         )
 
 
-def salveaza_date_pfa(payload: DatePFA):
+def salveaza_date_pfa(pfa: PFASchema):
     try:
-        data = DatePFA.model_validate(payload)
-    except Exception as err:
-        log.info(err)
-        raise HTTPException(
-            status_code=400, detail="Formularul este incomplet"
-        )
-
-    try:
-        with Session(engine) as session:
-            session.exec(delete(DatePFA))
-            session.add(data)
-            session.commit()
-            session.refresh(data)
-            return data
+        payload = pfa.model_dump()
+        payload.pop("id")
+        PFATable.delete().execute()
+        data = PFATable(**payload)
+        data.save()
+        payload["id"] = data.id
+        return payload
     except Exception as err:
         log.exception(err)
         raise HTTPException(status_code=500, detail="Nu am putut salva datele.")

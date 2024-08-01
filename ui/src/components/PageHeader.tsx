@@ -6,9 +6,9 @@ export function PageHeader({
   description: string;
 }) {
   return (
-    <hgroup style={{ textAlign: "center", marginTop: "2rem" }}>
+    <hgroup style={{ textAlign: "left", marginTop: "2rem" }}>
       <h1>{title}</h1>
-      <p>{description}</p>
+      <p style={{fontSize: "14px", marginTop: "0.5rem"}}>{description}</p>
     </hgroup>
   );
 }

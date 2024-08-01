@@ -4,7 +4,7 @@ import { req } from "../utils";
 import { useState } from "react";
 import { useStoreFileUpload } from "../store/incasari";
 
-export function FileUploader({ uploadUrl }: { uploadUrl: string }) {
+export function FileUploader() {
   const {
     setData,
     resetData,
@@ -33,7 +33,7 @@ export function FileUploader({ uploadUrl }: { uploadUrl: string }) {
     formData.append("file", file);
 
     req
-      .post(uploadUrl, formData, {
+      .post("/v1/fisiere/incarca", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -56,13 +56,18 @@ export function FileUploader({ uploadUrl }: { uploadUrl: string }) {
 
   if (fileDropped) {
     return (
-      <div style={{marginTop: "4rem", marginBottom: "1rem"}}>
+      <div style={{ marginTop: "4rem", marginBottom: "1rem" }}>
         <p className="text-center">
           Fisierul <span className="pico-color-amber-250">{fileName}</span> a
           fost incarcat!
         </p>
         <div>
-          <iframe style={{borderRadius: "5px"}} src={urlFisierIncarcat} width="100%" height="800px"></iframe>
+          <iframe
+            style={{ borderRadius: "5px" }}
+            src={urlFisierIncarcat}
+            width="100%"
+            height="800px"
+          ></iframe>
         </div>
       </div>
     );

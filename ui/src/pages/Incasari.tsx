@@ -2,30 +2,25 @@ import { PageHeader } from "../components/PageHeader";
 import { FileUploader } from "../components/FileUploader";
 import { useStoreFileUpload } from "../store/incasari";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { IIncasare } from "../store/incasari";
+import { IFisier } from "../store/incasari";
 import { useEffect, useState } from "react";
 import { req } from "../utils";
 import { Save } from "react-bootstrap-icons";
 
 export function Incasari() {
   const { data, fileDropped, resetFileDropped } = useStoreFileUpload();
-  const { register, handleSubmit, setValue, reset } = useForm<IIncasare>();
+  const { register, handleSubmit, setValue, reset } = useForm<IFisier>();
   const [loading, setLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
-  const [sursaVenitPrincipala, setSursaVenitPrincipala] = useState(true);
 
   useEffect(() => {
-    setValue("id", data.id);
-    setValue("serie_factura", data.serie_factura);
-    setValue("numar_factura", data.numar_factura);
     setValue(
-      "sursa_venit",
-      data.sursa_venit || "Venit din activitati independente"
+      "sursa_venit",  "Venit din activitati independente"
     );
     setValue("suma_incasata", data.suma_incasata);
+    setValue("moneda", data.moneda);
     setValue("adaugat_la", data.adaugat_la);
     setValue("tip_tranzactie", data.tip_tranzactie);
-    setValue("data_emitere_factura", data.data_emitere_factura);
     setValue(
       "data_incasare",
       data.data_incasare !== undefined
@@ -34,9 +29,8 @@ export function Incasari() {
     );
   }, [data]);
 
-  const onSubmit: SubmitHandler<IIncasare> = (data) => {
-    const payload = { ...data };
-    console.log("formdata:", payload, data);
+  const onSubmit: SubmitHandler<IIncasare> = (payload) => {
+    console.log("save data:", payload);
 
     setLoading(true);
 
@@ -66,8 +60,12 @@ export function Incasari() {
   return (
     <main className="container">
       <PageHeader
-        title="Incasari"
-        description="Aici poti aduga documentele justificative (facturi, chitante) prin care ai incasat bani oferind produse sau servicii cu PFA-ul tau."
+        title="💰 Incasari"
+        description="
+        Aici poti aduga documentele justificative (facturi, chitante) prin care ai incasat bani oferind produse sau servicii cu PFA-ul tau.
+        In cazul incasarilor in alta moneda decat RON conversia va fi facuta automat la cursul zilei anterioare setata in campul 'Data incasarii'.
+        Daca ai incasari din alte surse decat din emitere facturi/bonuri selecteaza o alta sursa a venitului. Completeaza 'Data incasare' doar daca ai incasat banii, lasa campul gol daca nu ai incasat inca (vei putea modifica mai tarziu).
+        "
       />
       {fileDropped ? (
         <article
@@ -77,27 +75,10 @@ export function Incasari() {
             padding: "2rem 2rem 1rem 2rem",
           }}
         >
-          <hgroup style={{ textAlign: "left", marginBottom: "2rem" }}>
-            <p style={{ marginTop: "0.5rem", fontSize: "12px" }}>
-              Completeaza detaliile acestei incasari in formularul de mai jos.
-              Daca ai incasari din alte surse decat din emitere facturi/bonuri
-              selecteaza o alta sursa a venitului. Completeaza 'Data incasare'
-              doar daca ai incasat banii, lasa campul gol daca nu ai incasat
-              inca (vei putea modifica mai tarziu).
-            </p>
-          </hgroup>
-
           <form onSubmit={handleSubmit(onSubmit)}>
             <label style={{ marginBottom: "2rem" }}>
               Sursa venitului
-              <select
-                {...register("sursa_venit", { required: true })}
-                onChange={(e) => {
-                  setSursaVenitPrincipala(
-                    e.target.value == "Venit din activitati independente"
-                  );
-                }}
-              >
+              <select {...register("sursa_venit", { required: true })}>
                 <option value="Venit din activitati independente">
                   Venit din activitati independente (activitatea ta de baza ca
                   PFA)
@@ -127,64 +108,73 @@ export function Incasari() {
               </select>
             </label>
 
-            <div className={sursaVenitPrincipala ? "grid" : "hidden"}>
-              <label>
-                Serie factura
-                <input
-                  style={{ textTransform: "uppercase" }}
-                  type="text"
-                  {...register("serie_factura", {
-                    required: sursaVenitPrincipala,
-                  })}
-                />
-              </label>
-
-              <label>
-                Numar factura
-                <input
-                  type="number"
-                  {...register("numar_factura", {
-                    required: sursaVenitPrincipala,
-                  })}
-                />
-              </label>
-
-              <label>
-                Data emitere factura
-                <input
-                  type="date"
-                  {...register("data_emitere_factura", {
-                    required: sursaVenitPrincipala,
-                  })}
-                />
-              </label>
-            </div>
-
             <div className="grid" style={{ alignItems: "center" }}>
-              <label>
-                Suma incasata (RON)
-                <input
-                  type="number"
-                  step="any"
-                  {...register("suma_incasata", { required: true })}
-                />
-              </label>
+              <div className="grid">
+                <label>
+                  Suma incasata
+                  <input
+                    type="number"
+                    step="any"
+                    {...register("suma_incasata", { required: true })}
+                  />
+                </label>
 
-              <label>
-                Tip Tranzactie
-                <select {...register("tip_tranzactie", { required: true })}>
-                  <option value="BANCAR">💳 BANCAR</option>
-                  <option value="NUMERAR">💵 NUMERAR</option>
-                </select>
-              </label>
+                <label>
+                  Moneda
+                  <select {...register("moneda", { required: true })}>
+                    <option value="RON">RON</option>
+                    <option value="EUR">EUR</option>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
+                    <option value="CHF">CHF</option>
+                    <option value="CAD">CAD</option>
+                    <option value="AED">AED</option>
+                    <option value="AUD">AUD</option>
+                    <option value="BGN">BGN</option>
+                    <option value="BRL">BRL</option>
+                    <option value="CNY">CNY</option>
+                    <option value="CZK">CZK</option>
+                    <option value="DKK">DKK</option>
+                    <option value="EGP">EGP</option>
+                    <option value="HUF">HUF</option>
+                    <option value="INR">INR</option>
+                    <option value="JPY">JPY</option>
+                    <option value="KRW">KRW</option>
+                    <option value="MDL">MDL</option>
+                    <option value="MXN">MXN</option>
+                    <option value="NOK">NOK</option>
+                    <option value="NZD">NZD</option>
+                    <option value="PLN">PLN</option>
+                    <option value="RSD">RSD</option>
+                    <option value="RUB">RUB</option>
+                    <option value="SEK">SEK</option>
+                    <option value="THB">THB</option>
+                    <option value="TRY">TRY</option>
+                    <option value="UAH">UAH</option>
+                    <option value="XAU">XAU</option>
+                    <option value="XDR">XDR</option>
+                    <option value="ZAR">ZAR</option>
+                  </select>
+                </label>
+              </div>
 
-              <label>
-                Data incasare
-                <input
-                  type="date"
-                  {...register("data_incasare", { required: false })}
-                />
-              </label>
+              <div className="grid">
+                <label>
+                  Tip Tranzactie
+                  <select {...register("tip_tranzactie", { required: true })}>
+                    <option value="BANCAR">💳 BANCAR</option>
+                    <option value="NUMERAR">💵 NUMERAR</option>
+                  </select>
+                </label>
+
+                <label>
+                  Data incasare
+                  <input
+                    type="date"
+                    {...register("data_incasare", { required: false })}
+                  />
+                </label>
+              </div>
             </div>
 
             <div style={{ marginTop: "2rem" }}>
@@ -200,9 +190,7 @@ export function Incasari() {
         </article>
       ) : null}
 
-      <FileUploader
-        uploadUrl={"/v1/fisiere/incarca?tipFisier=FISIER_INCASARE"}
-      />
+      <FileUploader/>
     </main>
   );
 }

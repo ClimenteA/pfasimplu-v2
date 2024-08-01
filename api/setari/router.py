@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from .models import DatePFA
+from .schemas import PFASchema
 from .actions import salveaza_date_pfa, get_date_pfa
 
 
@@ -11,8 +11,8 @@ router = APIRouter(tags=["Setari"], prefix="/setari")
 async def get_pfa():
     return get_date_pfa() 
     
-@router.post("/date-pfa", response_model=DatePFA)
-async def save_pfa_data(payload: DatePFA):
+@router.post("/date-pfa", response_model=PFASchema)
+async def save_pfa_data(payload: PFASchema):
     return salveaza_date_pfa(payload)
     
     

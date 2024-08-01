@@ -17,7 +17,7 @@ class Config(BaseSettings):
     LOG_PATH: str = "logs.log"
     SAVE_PATH: str = "./data/fisiere"
 
-    DATABASE_URI: str = "sqlite:///./data/database.sqlite"
+    DATABASE_URI: str = "./data/database.sqlite"
 
 
 cfg = Config()

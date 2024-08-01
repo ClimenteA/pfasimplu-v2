@@ -1,7 +1,6 @@
 from fastapi import APIRouter, UploadFile
-from sqlmodel import Session
-from .actions import incarca_fisier_incasari, preia_fisier
-from api.fisiere.models import TipFisier
+from .actions import incarca_fisier, preia_fisier
+from .schemas import FisierUploadedSchema
 
 router = APIRouter(tags=["Fisiere"], prefix="/fisiere")
 
@@ -11,6 +10,6 @@ async def get_file(filename: str):
     return preia_fisier(filename)
     
 
-@router.post("/incarca")
-async def upload_file(file: UploadFile, tipFisier: TipFisier):
-    return incarca_fisier_incasari(file, tipFisier)
+@router.post("/incarca", response_model=FisierUploadedSchema)
+async def upload_file(file: UploadFile):
+    return incarca_fisier(file)

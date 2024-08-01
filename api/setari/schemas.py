@@ -1,7 +1,6 @@
 from datetime import datetime
-from sqlmodel import Field, SQLModel
 from enum import StrEnum
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class VarBA(StrEnum):
@@ -26,7 +25,7 @@ bdc = [
 ]
 
 
-class DatePFA(SQLModel, table=True):
+class PFASchema(BaseModel):
     id: int | None = Field(default=None, primary_key=True)
     nume: str = Field(min_length=5)
     adresa: str = Field(min_length=5)

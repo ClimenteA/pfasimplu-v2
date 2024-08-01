@@ -1,17 +1,21 @@
-# https://github.com/anthonycepeda/fastapi-sqlmodel
 import os
+import peewee as pew
 from settings import cfg
-from sqlmodel import SQLModel, create_engine
 from .logger import log
 
 
-connect_args = {"check_same_thread": False}
-engine = create_engine(cfg.DATABASE_URI, echo=True, connect_args=connect_args)
+db = pew.SqliteDatabase(cfg.DATABASE_URI)
 
 
 def create_db_and_tables():
+    from api.incasari.tables import IncasariTabel
+    from api.fisiere.tables import FisiereTabel
+    from api.setari.tables import PFATable
+
     if not os.path.exists(cfg.SAVE_PATH):
         os.makedirs(cfg.SAVE_PATH)
 
-    SQLModel.metadata.create_all(engine)
+    db.connect()
+    db.create_tables([IncasariTabel, FisiereTabel, PFATable])
+
     log.info("created db and tables")
