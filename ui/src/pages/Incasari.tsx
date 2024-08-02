@@ -22,6 +22,7 @@ export function Incasari() {
     setValue("url_fisier", data.url_fisier);
     setValue("nume_fisier", data.nume_fisier);
     setValue("moneda", data.moneda || "RON");
+    setValue("data_incasare", data.data_incasare || "");
     setValue("tip_tranzactie", data.tip_tranzactie || "BANCAR");
   }, [data]);
 

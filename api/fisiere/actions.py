@@ -12,7 +12,7 @@ from .tables import FisiereTabel
 
 
 def preia_fisier(filename: str):
-    return FileResponse(os.path.join(cfg.SAVE_PATH, filename))
+    return FileResponse(cfg.get_file_path(filename) or "")
 
 
 def incarca_fisier(file: UploadFile):
