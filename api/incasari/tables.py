@@ -1,8 +1,8 @@
 import peewee as pew
-from api.database import db
+from api.database import Base
 
 
-class IncasariTabel(pew.Model):
+class IncasariTabel(Base):
     id = pew.PrimaryKeyField()
     suma_incasata = pew.FloatField()
     moneda = pew.CharField()
@@ -12,6 +12,3 @@ class IncasariTabel(pew.Model):
     nume_fisier = pew.CharField()
     data_incasare = pew.CharField()
     modificat_la = pew.CharField()
-
-    class Meta:
-        database = db 

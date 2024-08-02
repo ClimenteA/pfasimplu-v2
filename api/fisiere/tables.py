@@ -1,11 +1,8 @@
 import peewee as pew
-from api.database import db
+from api.database import Base
 
 
-class FisiereTabel(pew.Model):
+class FisiereTabel(Base):
     id = pew.PrimaryKeyField()
     cale_fisier = pew.CharField()
     adaugat_la = pew.DateField()
-
-    class Meta:
-        database = db 

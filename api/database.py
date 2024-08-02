@@ -7,6 +7,12 @@ from .logger import log
 db = pew.SqliteDatabase(cfg.DATABASE_URI)
 
 
+class Base(pew.Model):
+    
+    class Meta:
+        database = db 
+
+
 def create_db_and_tables():
     from api.incasari.tables import IncasariTabel
     from api.fisiere.tables import FisiereTabel

@@ -1,8 +1,8 @@
 import peewee as pew
-from api.database import db
+from api.database import Base
 
 
-class PFATable(pew.Model):
+class PFATable(Base):
     id = pew.PrimaryKeyField() 
     nume = pew.CharField()
     adresa = pew.CharField()
@@ -14,6 +14,3 @@ class PFATable(pew.Model):
     caenPrincipal = pew.CharField()
     caenSecondar = pew.CharField()
     actualizat_la = pew.DateField()
-
-    class Meta:
-        database = db 
