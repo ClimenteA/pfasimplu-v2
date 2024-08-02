@@ -2,31 +2,23 @@ import { PageHeader } from "../components/PageHeader";
 import { FileUploader } from "../components/FileUploader";
 import { useStoreFileUpload } from "../store/incasari";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { IFisier } from "../store/incasari";
+import { IIncasare } from "../store/incasari";
 import { useEffect, useState } from "react";
 import { req } from "../utils";
 import { Save } from "react-bootstrap-icons";
 
 export function Incasari() {
   const { data, fileDropped, resetFileDropped } = useStoreFileUpload();
-  const { register, handleSubmit, setValue, reset } = useForm<IFisier>();
+  const { register, handleSubmit, setValue, reset } = useForm<IIncasare>();
   const [loading, setLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
 
   useEffect(() => {
-    setValue(
-      "sursa_venit",  "Venit din activitati independente"
-    );
-    setValue("suma_incasata", data.suma_incasata);
-    setValue("moneda", data.moneda);
-    setValue("adaugat_la", data.adaugat_la);
-    setValue("tip_tranzactie", data.tip_tranzactie);
-    setValue(
-      "data_incasare",
-      data.data_incasare !== undefined
-        ? data.data_incasare.substring(0, 10)
-        : ""
-    );
+    setValue("sursa_venit", "Venit din activitati independente");
+    setValue("id", data.id);
+    setValue("nume_fisier", data.nume_fisier)
+    setValue("moneda", "RON");
+    setValue("tip_tranzactie", "BANCAR");
   }, [data]);
 
   const onSubmit: SubmitHandler<IIncasare> = (payload) => {
@@ -190,7 +182,7 @@ export function Incasari() {
         </article>
       ) : null}
 
-      <FileUploader/>
+      <FileUploader />
     </main>
   );
 }

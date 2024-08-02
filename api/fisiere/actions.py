@@ -28,6 +28,7 @@ def incarca_fisier(file: UploadFile):
 
         return FisierUploadedSchema(
             fisier_id=fisier.id,
+            nume_fisier=filename,
             url_fisier=f"{'https' if cfg.SECURE_URL else 'http'}://{cfg.HOST}:{cfg.PORT}/v1/fisiere/{filename}",
         )
     except Exception as err:

@@ -9,13 +9,15 @@ export function FileUploader() {
     setData,
     resetData,
     fileDropped,
+    urlFisierIncarcat,
+    setUrlFisierIncarcat,
+    resetUrlFisierIncarcat,
     resetFileDropped,
     setFileWasDropped,
   } = useStoreFileUpload();
   const [isDragActive, setIsDragActive] = useState(false);
   const [uploadErr, setUploadErr] = useState("");
   const [fileName, setFileName] = useState("");
-  const [urlFisierIncarcat, setUrlFisierIncarcat] = useState("");
 
   function handleFiles(files: any[]) {
     if (files.length != 1) {
@@ -50,6 +52,7 @@ export function FileUploader() {
           setUploadErr("");
           resetFileDropped();
           resetData();
+          resetUrlFisierIncarcat();
         }, 5000);
       });
   }

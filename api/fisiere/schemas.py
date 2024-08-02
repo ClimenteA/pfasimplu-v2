@@ -9,4 +9,5 @@ class FisiereSchema(BaseModel):
 
 class FisierUploadedSchema(BaseModel):
     fisier_id: int
+    nume_fisier: str
     url_fisier: str
