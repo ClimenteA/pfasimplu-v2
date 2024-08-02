@@ -25,7 +25,6 @@ class IncasariSchema(BaseModel):
     id: int | None = Field(default=None)
     suma_incasata: float = Field(default=0.0)
     moneda: Currency = Field(default=Currency.RON)
-    curs_bnr: float = Field(default=1.0)
     tip_tranzactie: TipTranzactie = Field(default=TipTranzactie.BANCAR)
     sursa_venit: SursaVenit = Field(default=SursaVenit.ACTIVITATE_PRINCIPALA)
     nume_fisier: str = Field(default="")

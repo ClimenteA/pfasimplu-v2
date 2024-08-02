@@ -23,7 +23,6 @@ class Config(BaseSettings):
         filepath = os.path.join(self.SAVE_PATH, filename)
         if os.path.exists(filepath):
             return filepath
-        raise ValueError(f"File {filename} doesn't exist!")
 
 
 cfg = Config()

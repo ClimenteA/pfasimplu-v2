@@ -9,7 +9,8 @@ import { Save } from "react-bootstrap-icons";
 import { TabelIncasari } from "../components/TabelIncasari";
 
 export function Incasari() {
-  const { data, fileDropped, resetFileDropped, setModificaIncasare } = useStoreIncasariFileUpload();
+  const { data, fileDropped, resetFileDropped, setModificaIncasare } =
+    useStoreIncasariFileUpload();
   const { register, handleSubmit, setValue, reset } = useForm<IIncasare>();
   const [loading, setLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
@@ -37,10 +38,8 @@ export function Incasari() {
           setSaveStatus("Datele au fost salvate!");
           reset();
           setModificaIncasare();
-          setTimeout(() => {
-            setSaveStatus("");
-            resetFileDropped();
-          }, 1000);
+          setSaveStatus("");
+          resetFileDropped();
         }
       })
       .catch(function (error) {
@@ -168,9 +167,11 @@ export function Incasari() {
                   Data incasare
                   <input
                     type="date"
+                    max={new Date().toISOString().split("T")[0]}
                     {...register("data_incasare", { required: false })}
                   />
                 </label>
+                
               </div>
             </div>
 

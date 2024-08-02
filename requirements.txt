@@ -4,5 +4,5 @@ pydantic-settings==2.3.4
 loguru==0.7.2
 requests==2.32.3
 pathvalidate==3.2.0
-cursvalutarbnr==0.0.1
+cursvalutarbnr==0.0.3
 peewee==3.17.6
