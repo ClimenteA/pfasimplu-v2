@@ -19,5 +19,11 @@ class Config(BaseSettings):
 
     DATABASE_URI: str = "./data/database.sqlite"
 
+    def get_file_path(self, filename: str):
+        filepath = os.path.join(self.SAVE_PATH, filename)
+        if os.path.exists(filepath):
+            return filepath
+        raise ValueError(f"File {filename} doesn't exist!")
+
 
 cfg = Config()
