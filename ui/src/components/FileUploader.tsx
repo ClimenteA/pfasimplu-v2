@@ -1,11 +1,12 @@
 import Dropzone from "react-dropzone";
 import { Upload } from "react-bootstrap-icons";
 import { req } from "../utils";
-import { useState } from "react";
-import { useStoreFileUpload } from "../store/incasari";
+import { useEffect, useState } from "react";
+import { useStoreIncasariFileUpload } from "../store/incasari";
 
 export function FileUploader() {
   const {
+    data,
     setData,
     resetData,
     fileDropped,
@@ -14,10 +15,16 @@ export function FileUploader() {
     resetUrlFisierIncarcat,
     resetFileDropped,
     setFileWasDropped,
-  } = useStoreFileUpload();
+  } = useStoreIncasariFileUpload();
   const [isDragActive, setIsDragActive] = useState(false);
   const [uploadErr, setUploadErr] = useState("");
   const [fileName, setFileName] = useState("");
+
+  useEffect(() => {
+    if (data.url_fisier) {
+      setUrlFisierIncarcat(data.url_fisier);
+    }
+  }, [data]);
 
   function handleFiles(files: any[]) {
     if (files.length != 1) {

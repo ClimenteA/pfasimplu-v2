@@ -1,14 +1,15 @@
 import { PageHeader } from "../components/PageHeader";
 import { FileUploader } from "../components/FileUploader";
-import { useStoreFileUpload } from "../store/incasari";
+import { useStoreIncasariFileUpload } from "../store/incasari";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IIncasare } from "../store/incasari";
 import { useEffect, useState } from "react";
 import { req } from "../utils";
 import { Save } from "react-bootstrap-icons";
+import { TabelIncasari } from "../components/TabelIncasari";
 
 export function Incasari() {
-  const { data, fileDropped, resetFileDropped } = useStoreFileUpload();
+  const { data, fileDropped, resetFileDropped, setModificaIncasare } = useStoreIncasariFileUpload();
   const { register, handleSubmit, setValue, reset } = useForm<IIncasare>();
   const [loading, setLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
@@ -16,9 +17,11 @@ export function Incasari() {
   useEffect(() => {
     setValue("sursa_venit", "Venit din activitati independente");
     setValue("id", data.id);
-    setValue("nume_fisier", data.nume_fisier)
-    setValue("moneda", "RON");
-    setValue("tip_tranzactie", "BANCAR");
+    setValue("suma_incasata", data.suma_incasata);
+    setValue("url_fisier", data.url_fisier);
+    setValue("nume_fisier", data.nume_fisier);
+    setValue("moneda", data.moneda || "RON");
+    setValue("tip_tranzactie", data.tip_tranzactie || "BANCAR");
   }, [data]);
 
   const onSubmit: SubmitHandler<IIncasare> = (payload) => {
@@ -33,6 +36,7 @@ export function Incasari() {
         if (response.status == 200) {
           setSaveStatus("Datele au fost salvate!");
           reset();
+          setModificaIncasare();
           setTimeout(() => {
             setSaveStatus("");
             resetFileDropped();
@@ -55,8 +59,9 @@ export function Incasari() {
         title="💰 Incasari"
         description="
         Aici poti aduga documentele justificative (facturi, chitante) prin care ai incasat bani oferind produse sau servicii cu PFA-ul tau.
+        Daca ai incasari din alte surse decat din emitere facturi/bonuri selecteaza o alta sursa a venitului. 
         In cazul incasarilor in alta moneda decat RON conversia va fi facuta automat la cursul zilei anterioare setata in campul 'Data incasarii'.
-        Daca ai incasari din alte surse decat din emitere facturi/bonuri selecteaza o alta sursa a venitului. Completeaza 'Data incasare' doar daca ai incasat banii, lasa campul gol daca nu ai incasat inca (vei putea modifica mai tarziu).
+        Completeaza 'Data incasare' doar daca ai incasat banii, lasa campul gol daca nu ai incasat inca (vei putea modifica mai tarziu in tabelul de incasari).
         "
       />
       {fileDropped ? (
@@ -183,6 +188,8 @@ export function Incasari() {
       ) : null}
 
       <FileUploader />
+
+      <TabelIncasari />
     </main>
   );
 }

@@ -13,24 +13,36 @@ export interface IIncasare extends IFisier {
   adaugat_la?: string;
   tip_tranzactie?: string;
   data_incasare?: string;
+  modificat_la?: string;
+  modificaIncasare?: boolean;
 }
 
 interface IStoreFileUpload {
   data: IIncasare;
+  modificaIncasare?: boolean;
+  setModificaIncasare: () => void;
+  resetModificaIncasare: () => void;
   urlFisierIncarcat?: string;
   setUrlFisierIncarcat: (url: string) => void;
   resetUrlFisierIncarcat: () => void;
   fileDropped: boolean;
   setFileWasDropped: () => void;
   resetFileDropped: () => void;
-  setData: (responseData: IFisier) => void;
+  setData: (responseData: IIncasare) => void;
   resetData: () => void;
 }
 
-export const useStoreFileUpload = create<IStoreFileUpload>((set) => ({
+export const useStoreIncasariFileUpload = create<IStoreFileUpload>((set) => ({
   data: {},
   urlFisierIncarcat: undefined,
   fileDropped: false,
+  modificaIncasare: false,
+  setModificaIncasare: () => {
+    set({ modificaIncasare: true });
+  },
+  resetModificaIncasare: () => {
+    set({ modificaIncasare: false });
+  },
   setUrlFisierIncarcat: (url: string) => {
     set({ urlFisierIncarcat: url });
   },
