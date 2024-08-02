@@ -32,21 +32,25 @@ def salveaza_incasare(incasare: IncasariSchema):
             and incasare.data_incasare
             and incasare.suma_incasata > 0
         ):
-            log.info(f"Conversie {incasare.moneda} la {Currency.RON} pentru suma {incasare.suma_incasata}.")
+            log.info(
+                f"Conversie {incasare.moneda} la {Currency.RON} pentru suma {incasare.suma_incasata}."
+            )
             incasare.suma_incasata = ron_exchange_rate(
                 ammount=incasare.suma_incasata,
-                to_currency=incasare.moneda,
+                currency=incasare.moneda,
                 date=incasare.data_incasare,
             )
             incasare.moneda = Currency.RON
-            log.info(f"Conversie realizata! Suma in RON este: {incasare.suma_incasata}.")
+            log.info(
+                f"Conversie realizata! Suma in RON este: {incasare.suma_incasata}."
+            )
 
         payload = incasare.model_dump()
         data = IncasariTabel(**payload)
         data.save()
         payload["id"] = data.id
         return payload
-    
+
     except Exception as err:
         log.exception(err)
         raise HTTPException(
