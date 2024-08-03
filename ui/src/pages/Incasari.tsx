@@ -61,7 +61,8 @@ export function Incasari() {
         Aici poti aduga documentele justificative (facturi, chitante) prin care ai incasat bani oferind produse sau servicii cu PFA-ul tau.
         Daca ai incasari din alte surse decat din emitere facturi/bonuri selecteaza o alta sursa a venitului. 
         In cazul incasarilor in alta moneda decat RON conversia va fi facuta automat la cursul zilei anterioare setata in campul 'Data incasarii'.
-        Completeaza 'Data incasare' doar daca ai incasat banii, lasa campul gol daca nu ai incasat inca (vei putea modifica mai tarziu in tabelul de incasari).
+        Completeaza 'Data incasare' doar daca ai incasat banii, lasa campul gol daca nu ai incasat inca (vei putea modifica mai tarziu).
+        Ai grija cu sumele incasate in alta valuta (EUR,USD etc) - sumele sunt convertite in RON in functie de 'Data incasare'. 
         "
       />
       {fileDropped ? (

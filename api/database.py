@@ -20,7 +20,10 @@ def create_db_and_tables():
 
     if not os.path.exists(cfg.SAVE_PATH):
         os.makedirs(cfg.SAVE_PATH)
-
+    
+    if not os.path.exists(cfg.EXPORT_PATH):
+        os.makedirs(cfg.EXPORT_PATH)
+    
     db.connect()
     db.create_tables([IncasariTabel, FisiereTabel, PFATable])
 

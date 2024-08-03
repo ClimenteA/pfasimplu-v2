@@ -16,6 +16,7 @@ class Config(BaseSettings):
     LOG_RETENTION: str = "1 week"
     LOG_PATH: str = "logs.log"
     SAVE_PATH: str = "./data/fisiere"
+    EXPORT_PATH: str = "./data/exporturi"
 
     DATABASE_URI: str = "./data/database.sqlite"
 
