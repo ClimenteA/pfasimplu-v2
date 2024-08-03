@@ -7,3 +7,4 @@ pathvalidate==3.2.0
 cursvalutarbnr==0.0.4
 peewee==3.17.6
 pandas==2.2.2
+openpyxl==3.1.5

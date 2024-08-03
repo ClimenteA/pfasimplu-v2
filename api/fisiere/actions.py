@@ -72,7 +72,7 @@ def descarca_tabel(tip_descarcare: TipDescarcare, tabel: DBTableNames):
 
                 if tip_descarcare == TipDescarcare.XLSX:
                     fp = partial_fp + ".xlsx"
-                    df.to_excel(fp)
+                    df.to_excel(fp, index=False)
                     filepaths.append(fp)
                 elif tip_descarcare == TipDescarcare.CSV:
                     fp = partial_fp + ".csv"
