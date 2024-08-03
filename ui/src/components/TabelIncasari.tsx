@@ -5,6 +5,8 @@ import {
   PencilSquare,
   FiletypeCsv,
   FiletypeXlsx,
+  ChevronRight,
+  ChevronLeft,
 } from "react-bootstrap-icons";
 import { useStoreIncasariFileUpload } from "../store/incasari";
 import { IIncasare } from "../store/incasari";
@@ -13,7 +15,7 @@ async function getIncasari(page: number) {
   try {
     const response = await req.get(`/v1/incasari/salvate?page=${page}`);
     const insasariData: IIncasare[] = response.data;
-    console.log(insasariData);
+    // console.log(insasariData);
     return insasariData;
   } catch (error) {
     console.log(error);
@@ -102,11 +104,10 @@ export function TabelIncasari() {
     <div style={{ marginTop: "4rem", marginBottom: "6rem" }}>
       {incasari.length == 0 ? (
         <p className="text-center pico-color-zinc-450">
-          Nici o incasare adaugata.
+          Nu mai sunt incasari.
         </p>
       ) : (
         <div>
-
           <div style={{ marginBottom: "4rem" }} role="group">
             <button
               onClick={downloadIncasariCSV}
@@ -182,6 +183,31 @@ export function TabelIncasari() {
               })}
             </tbody>
           </table>
+
+          <div
+            style={{
+              marginTop: "4rem",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{ maxWidth: "200px" }} role="group">
+              <button
+                onClick={() => setPage(() => page - 1)}
+                className="outline secondary"
+                type="button"
+              >
+                <ChevronLeft />
+              </button>
+              <button
+                onClick={() => setPage(() => page + 1)}
+                className="outline secondary"
+                type="button"
+              >
+                <ChevronRight />
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
