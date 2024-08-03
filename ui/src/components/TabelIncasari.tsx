@@ -1,6 +1,11 @@
 import { req } from "../utils";
 import { useEffect, useState } from "react";
-import { Trash, PencilSquare, FileEarmark, FileExcel, FileEarmarkArrowDown, FiletypeCsv, FiletypeXlsx } from "react-bootstrap-icons";
+import {
+  Trash,
+  PencilSquare,
+  FiletypeCsv,
+  FiletypeXlsx,
+} from "react-bootstrap-icons";
 import { useStoreIncasariFileUpload } from "../store/incasari";
 import { IIncasare } from "../store/incasari";
 
@@ -14,6 +19,31 @@ async function getIncasari(page: number) {
     console.log(error);
     return null;
   }
+}
+
+async function download(table: string, tipDescarcare: string) {
+  try {
+    const response = await req.get(
+      `/v1/fisiere/descarca/${table}?tip_descarcare=${tipDescarcare}`,
+      { responseType: "blob" }
+    );
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${table}.${tipDescarcare}`;
+    link.click();
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+async function downloadIncasariCSV() {
+  return await download("incasaritabel", "CSV");
+}
+
+async function downloadIncasariXLSX() {
+  return await download("incasaritabel", "XLSX");
 }
 
 async function deleteIncasare(incasareId: number) {
@@ -76,6 +106,24 @@ export function TabelIncasari() {
         </p>
       ) : (
         <div>
+
+          <div style={{ marginBottom: "4rem" }} role="group">
+            <button
+              onClick={downloadIncasariCSV}
+              className="outline secondary"
+              type="button"
+            >
+              <FiletypeCsv /> Descarca incasari CSV{" "}
+            </button>
+            <button
+              onClick={downloadIncasariXLSX}
+              className="outline secondary"
+              type="button"
+            >
+              <FiletypeXlsx /> Descarca incasari XLSX
+            </button>
+          </div>
+
           <table>
             <thead>
               <tr>
@@ -134,12 +182,6 @@ export function TabelIncasari() {
               })}
             </tbody>
           </table>
-
-          <div style={{marginTop: "4rem"}} role="group">
-            <button className="outline secondary" type="button"><FiletypeCsv/> Descarca CSV </button>
-            <button className="outline secondary" type="button"><FiletypeXlsx/> Descarca XLSX</button>
-          </div>
-          
         </div>
       )}
     </div>
