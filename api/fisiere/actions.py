@@ -56,7 +56,7 @@ def descarca_tabel(tip_descarcare: TipDescarcare, tabel: DBTableNames):
         filepaths = []
         chunk_size = 500_000
         if tabel == DBTableNames.incasaritabel:
-            tabel = datetime.now().date().isoformat() + "_" +  tabel 
+            tabel = datetime.now().date().isoformat() + "_" + tabel
             while True:
                 chunk = [
                     model_to_dict(m)
@@ -79,12 +79,17 @@ def descarca_tabel(tip_descarcare: TipDescarcare, tabel: DBTableNames):
                     df.to_csv(fp, index=False)
                     filepaths.append(fp)
                 else:
-                    raise ValueError("Tipul descarcari poate fi doar XLSX sau CSV")
+                    raise HTTPException(
+                        status_code=404,
+                        detail="Tipul descarcari poate fi doar XLSX sau CSV",
+                    )
 
                 page += 1
 
         if len(filepaths) == 0:
-            raise ValueError("Nu sunt inregistrari pentru moment.")
+            raise HTTPException(
+                status_code=404, detail="Nu sunt inregistrari pentru moment."
+            )
 
         if len(filepaths) > 1:
             zipfilepath = create_zip(filepaths, zipname=tabel)
