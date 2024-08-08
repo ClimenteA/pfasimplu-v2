@@ -11,12 +11,15 @@ class Setari(models.Model):
     email = models.EmailField()
     iban = models.CharField(max_length=34)
     caen_principal = models.CharField(max_length=4)
-    caen_secondar_1 = models.CharField(max_length=4)
-    caen_secondar_2 = models.CharField(max_length=4)
-    caen_secondar_3 = models.CharField(max_length=4)
-    caen_secondar_4 = models.CharField(max_length=4)
-    caen_secondar_5 = models.CharField(max_length=4)
+    caen_secondar_1 = models.CharField(max_length=4, default="")
+    caen_secondar_2 = models.CharField(max_length=4, default="")
+    caen_secondar_3 = models.CharField(max_length=4, default="")
+    caen_secondar_4 = models.CharField(max_length=4, default="")
+    caen_secondar_5 = models.CharField(max_length=4, default="")
     actualizat_la = models.DateTimeField(db_default=Now())
+
+    class Meta:
+        verbose_name_plural = "Setari"
 
     def __str__(self):
         return self.nume

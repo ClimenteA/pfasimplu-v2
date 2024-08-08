@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pico.jade.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pico.colors.min.css' %}">
+    <script defer src="{% static 'alpinejs3xx.min.js' %}"></script>
+    <title>{% block page-title %} PFASimplu {% endblock %}</title>
+</head>
+
+<body class="container-fluid">
+
+    <nav style="border-bottom: 1px solid #696868; padding-left: 1rem; padding-right: 1rem;">
+        <ul>
+            <li>
+                <a href="/" role="button">
+                    <strong>PFASimplu</strong>
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="{% url 'registre' %}">
+                    Registre
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'incasari' %}">
+                    Incasari
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'cheltuieli' %}">
+                    Cheltuieli
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'documente' %}">
+                    Documente
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'inventar' %}">
+                    Inventar
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'setari' %}">
+                    Setari
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <main class="container">
+
+        {% block body %}
+
+        {% endblock %}
+
+    </main>
+
+
+</body>
+
+</html>
