@@ -1,3 +1,4 @@
+{% load django_browser_reload %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
@@ -7,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'pico.jade.min.css' %}">
     <link rel="stylesheet" href="{% static 'pico.colors.min.css' %}">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <script defer src="{% static 'alpinejs3xx.min.js' %}"></script>
     <title>{% block page-title %} PFASimplu {% endblock %}</title>
 </head>
 
 <body class="container-fluid">
-
     <nav style="border-bottom: 1px solid #696868; padding-left: 1rem; padding-right: 1rem;">
         <ul>
             <li>
@@ -64,7 +65,7 @@
 
     </main>
 
-
+    {% django_browser_reload_script %}
 </body>
 
 </html>
