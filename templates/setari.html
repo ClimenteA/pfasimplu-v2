@@ -11,7 +11,7 @@
     <h1>⚙️ Setari</h1>
     <p>
         Aici poti modifica variabilele care stau la baza calculelor pentru
-        impozite, taxe, crearea de declaratii, date pfa samd. 
+        impozite, taxe, crearea de declaratii, date pfa samd.
     </p>
 </hgroup>
 
@@ -19,75 +19,116 @@
 <article class="mt-4">
 
     <form action="{% url 'setari' %}" method="POST">
+        {% csrf_token %}
 
         <p class="text-bold">Datele PFA-ului tau:</p>
-        <div class="grid">
-            <input type="text" placeholder="Nume" aria-label="Nume" />
-            <input type="text" placeholder="Adresa" aria-label="Adresa" />
-        </div>
-        <div class="grid">
-            <input type="text" placeholder="Nr.Reg.Com." aria-label="Nr.Reg.Com."/>
-            <input type="text" placeholder="CIF/VAT" aria-label="CIF/VAT" />
-        </div>
-        <div class="grid">
-            <input type="text" placeholder="Telefon" aria-label="Telefon" />
-            <input type="email" placeholder="Email" aria-label="Email" />
-        </div>
-        <div class="grid">
-            <input type="text" placeholder="IBAN" aria-label="IBAN" />
-            <input type="text" placeholder="Cod CAEN Principal" aria-label="Cod CAEN Principal" />
-        </div>
-
-
-<!-- 
-        <p class="text-bold mt-2" >
-            Coduri CAEN secundare:
-        </p>
 
         <div class="grid">
-            <input type="text"
-            placeholder="Cod CAEN Secundar"
-            aria-label="Cod CAEN Secundar"
-            />
-            <button class="secondary"
-                type="button">
-                <PlusLg /> Adauga CAEN secundar
+            <label for="{{ setari_form.nume.id_for_label }}">
+                Nume:
+                {{ setari_form.nume }}
+                {{ setari_form.nume.errors }}
+            </label>
+
+            <label for="{{ setari_form.adresa.id_for_label }}">
+                Adresa:
+                {{ setari_form.adresa }}
+                {{ setari_form.adresa.errors }}
+            </label>
+        </div>
+
+        <div class="grid">
+            <label for="{{ setari_form.nr_reg_com.id_for_label }}">
+                Nr.Reg.Com.:
+                {{ setari_form.nr_reg_com }}
+                {{ setari_form.nr_reg_com.errors }}
+            </label>
+
+            <label for="{{ setari_form.cif_vat_cui.id_for_label }}">
+                CIF/VAT:
+                {{ setari_form.cif_vat_cui }}
+                {{ setari_form.cif_vat_cui.errors }}
+            </label>
+        </div>
+
+        <div class="grid">
+            <label for="{{ setari_form.telefon.id_for_label }}">
+                Telefon:
+                {{ setari_form.telefon }}
+                {{ setari_form.telefon.errors }}
+            </label>
+
+            <label for="{{ setari_form.email.id_for_label }}">
+                Email:
+                {{ setari_form.email }}
+                {{ setari_form.email.errors }}
+            </label>
+        </div>
+
+        <div class="grid">
+            
+            <label for="{{ setari_form.iban.id_for_label }}">
+                IBAN:
+                {{ setari_form.iban }}
+                {{ setari_form.iban.errors }}
+            </label>
+
+            <label for="{{ setari_form.caen_principal.id_for_label }}">
+                Cod CAEN Principal:
+                {{ setari_form.caen_principal }}
+                {{ setari_form.caen_principal.errors }}
+            </label>
+        </div>
+
+        <div x-data="{show: {% if setari_form.caen_secondar_1 %} true {% else %} false {% endif %} }">
+
+            <button @click="show = !show" type="button" class="outline secondary">
+                {% bs_icon 'plus-lg' %} Adauga CAEN-uri Secundare
             </button>
-        </div> -->
-<!-- 
-        {caenSecundar.length > 0 ? (
-        <p class="pico-color-zinc-450">
-            Click pe CAEN pentru a-l sterge
-        </p>
-        ) : null}
 
-        <div class="grid">
-            {caenSecundar.map((caen) => {
-            return (
-            <div data-testid={caen} key={caen} class="grid">
-                <button
-                    class="pico-background-red-650"
-                    type="button"
-                    >
-                    {caen}
-                </button>
+            <div x-show="show" class="grid mt-2">
+                <label for="{{ setari_form.caen_secondar_1.id_for_label }}">
+                    CAEN 1:
+                    {{ setari_form.caen_secondar_1 }}                    
+                    {{ setari_form.caen_secondar_1.errors }}
+                </label>
+                
+
+                <label for="{{ setari_form.caen_secondar_2.id_for_label }}">
+                    CAEN 2:
+                    {{ setari_form.caen_secondar_2 }}
+                    {{ setari_form.caen_secondar_2.errors }}
+                </label>
+
+                <label for="{{ setari_form.caen_secondar_3.id_for_label }}">
+                    CAEN 3:
+                    {{ setari_form.caen_secondar_3 }}
+                    {{ setari_form.caen_secondar_3.errors }}
+                </label>
+
+                <label for="{{ setari_form.caen_secondar_4.id_for_label }}">
+                    CAEN 4:
+                    {{ setari_form.caen_secondar_4 }}
+                    {{ setari_form.caen_secondar_4.errors }}
+                </label>
+
+                <label for="{{ setari_form.caen_secondar_5.id_for_label }}">
+                    CAEN 5:
+                    {{ setari_form.caen_secondar_5 }}
+                    {{ setari_form.caen_secondar_5.errors }}
+                </label>
+
             </div>
-            );
-            })}
-        </div> -->
+
+        </div>
 
         <div class="mt-2">
             <button data-testid="salveaza-datele-pfa" type="submit">
                 {% bs_icon 'save' %} Salveaza datele PFA
             </button>
-            <!-- <p data-testid="save-message" class="pico-color-zinc-450 text-center">
-                {loading && saveStatus.length > 0 ? "Se salveaza..." : null}
-                {saveStatus.length > 0 ? saveStatus : null}
-            </p> -->
         </div>
     </form>
 </article>
-
 
 
 {% endblock %}

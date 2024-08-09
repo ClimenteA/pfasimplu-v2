@@ -65,6 +65,25 @@
 
     </main>
 
+
+    {% if messages %}
+    <div x-data="{modalOpen: true}">
+        <dialog :open="modalOpen">
+            <article>
+                <header>
+                    <button @click="modalOpen = false" aria-label="Close" rel="prev"></button>
+                    <p>
+                        <strong>{% for message in messages %} {{ message.extra_tags }} {% endfor %}</strong>
+                    </p>
+                </header>
+                <p>
+                    {% for message in messages %} {{ message }} {% endfor %}
+                </p>
+            </article>
+        </dialog>
+    </div>
+    {% endif %}
+
     {% django_browser_reload_script %}
 </body>
 

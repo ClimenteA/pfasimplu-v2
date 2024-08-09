@@ -1,7 +1,8 @@
 from django.urls import path
 
-from . import views
+from .views import SetariView
+
 
 urlpatterns = [
-    path("", views.VSetari.as_view(), name="setari"),
+    path("", SetariView.as_view(), name="setari"),
 ]

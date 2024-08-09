@@ -1,9 +1,10 @@
 from django.forms import ModelForm
-from .models import Setari
+from .models import SetariModel
 
 
 
 class SetariForm(ModelForm):
     class Meta:
-        model = Setari
+        model = SetariModel
         fields = "__all__"
+        exclude = ["actualizat_la"]

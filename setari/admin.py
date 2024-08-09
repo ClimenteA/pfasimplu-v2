@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Setari
+from .models import SetariModel
 
 
-admin.site.register(Setari)
+admin.site.register(SetariModel)

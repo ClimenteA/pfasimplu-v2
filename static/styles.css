@@ -47,3 +47,9 @@
 .hidden {
   display: none;
 }
+
+
+ul.errorlist > li {
+  list-style-type: none !important;
+  color: var(--pico-color-red-450) !important;
+}
