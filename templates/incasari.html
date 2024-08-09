@@ -1,11 +1,81 @@
 {% extends "base.html" %}
-
+{% load bootstrap_icons %}
 
 {% block page-title %} Incasari {% endblock %}
 
 
 {% block body %}
 
-    <h1>Incasari</h1>
+<hgroup class="title-description">
+    <h1>💰 Incasari</h1>
+    <p>
+        Aici poti aduga documentele justificative (facturi, chitante) prin care ai incasat bani oferind produse sau servicii cu PFA-ul tau.
+        Daca ai incasari din alte surse decat din emitere facturi/bonuri selecteaza o alta sursa a venitului.
+        In cazul incasarilor in alta moneda decat RON conversia va fi facuta automat la cursul zilei anterioare setata
+        in campul 'Data incasarii'.
+        Completeaza 'Data incasare' doar daca ai incasat banii, lasa campul gol daca nu ai incasat inca (vei putea
+        modifica mai tarziu).
+        Sumele incasate in alta valuta (EUR,USD etc) - sumele sunt convertite in RON in functie de 'Data
+        incasare'.
+    </p>
+</hgroup>
+
+
+<article class="mt-4">
+    <form action="{% url 'incasari' %}" method="POST">
+    
+        <p class="text-bold">Datele incasarii:</p>
+    
+        {% csrf_token %}
+
+        <label for="{{ incasari_form.sursa_venit.id_for_label }}">
+            {{ incasari_form.sursa_venit.label }}:
+            {{ incasari_form.sursa_venit }}
+            {{ incasari_form.sursa_venit.errors }}
+        </label>
+
+        <div class="grid mt-2">
+
+            <label for="{{ incasari_form.suma.id_for_label }}">
+                {{ incasari_form.suma.label }}:
+                {{ incasari_form.suma }}
+                {{ incasari_form.suma.errors }}
+            </label>
+
+            <label for="{{ incasari_form.valuta.id_for_label }}">
+                {{ incasari_form.valuta.label }}:
+                {{ incasari_form.valuta }}
+                {{ incasari_form.valuta.errors }}
+            </label>
+
+            <label for="{{ incasari_form.tip_tranzactie.id_for_label }}">
+                {{ incasari_form.tip_tranzactie.label }}:
+                {{ incasari_form.tip_tranzactie }}
+                {{ incasari_form.tip_tranzactie.errors }}
+            </label>
+
+            <label for="{{ incasari_form.data_incasarii.id_for_label }}">
+                {{ incasari_form.data_incasarii.label }}:
+                {{ incasari_form.data_incasarii }}
+                {{ incasari_form.data_incasarii.errors }}
+            </label>
+    
+        </div>
+
+        <label for="{{ incasari_form.fisier.id_for_label }}">
+            {{ incasari_form.fisier.label }}:
+            {{ incasari_form.fisier }}
+            {{ incasari_form.fisier.errors }}
+        </label>
+
+
+        <div class="mt-2">
+            <button data-testid="salveaza-datele-incasarii" type="submit">
+                {% bs_icon 'save' %} Salveaza incasare
+            </button>
+        </div>
+
+    </form>
+</article>
 
 {% endblock %}

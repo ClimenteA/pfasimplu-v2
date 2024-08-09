@@ -25,13 +25,13 @@
 
         <div class="grid">
             <label for="{{ setari_form.nume.id_for_label }}">
-                Nume:
+                {{ setari_form.nume.label }}:
                 {{ setari_form.nume }}
                 {{ setari_form.nume.errors }}
             </label>
 
             <label for="{{ setari_form.adresa.id_for_label }}">
-                Adresa:
+                {{ setari_form.adresa.label }}:
                 {{ setari_form.adresa }}
                 {{ setari_form.adresa.errors }}
             </label>
@@ -53,13 +53,13 @@
 
         <div class="grid">
             <label for="{{ setari_form.telefon.id_for_label }}">
-                Telefon:
+                {{ setari_form.telefon.label }}:
                 {{ setari_form.telefon }}
                 {{ setari_form.telefon.errors }}
             </label>
 
             <label for="{{ setari_form.email.id_for_label }}">
-                Email:
+                {{ setari_form.email.label }}:
                 {{ setari_form.email }}
                 {{ setari_form.email.errors }}
             </label>

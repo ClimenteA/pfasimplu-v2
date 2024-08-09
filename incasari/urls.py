@@ -1,7 +1,7 @@
 from django.urls import path
-from . import views
+from .views import IncasariView
+
 
 urlpatterns = [
-    path("", views.index, name="incasari")
+    path("", IncasariView.as_view(), name="incasari"),
 ]
-
